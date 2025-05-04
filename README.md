@@ -1,94 +1,94 @@
----
+# Truth Seeker
 
-# Truth Seeker AI – Political Speech Analyzer
-
-Truth Seeker AI is a web-based tool that uses Machine Learning and Natural Language Processing (NLP) to analyze political speeches and detect potential bias. Built as part of a Data Science internship at Prasunet Pvt. Ltd., this tool bridges the gap between AI technology and civic understanding.
-
----
+Truth Seeker is a Flask-based web application that detects political bias in text. It uses machine learning models trained on a political bias dataset to predict the bias of input text, along with sentiment analysis and topic distribution.
 
 ## Features
 
-- Analyze speeches to detect *political bias* (Left, Right, or Neutral).
-- Input speech text via HTML form.
-- Real-time prediction using an integrated ML model.
-- Intuitive and responsive front-end design.
-- Model trained on political speech/text datasets using NLP and Logistic Regression.
+- Predict political bias of input text
+- Sentiment analysis of the text
+- Topic distribution using Latent Dirichlet Allocation (LDA)
+- Simple web interface and API endpoints
 
----
+## Setup and Installation
 
-## Tech Stack
+1. Clone the repository and navigate to the `truth_seeker` directory.
 
-- *Frontend:* HTML, CSS, JavaScript
-- *Backend:* Python (Flask)
-- *ML/NLP:* scikit-learn, pandas, NumPy, TF-IDF, Logistic Regression
-- *Deployment:* Localhost / Web Server
-
----
-
-## How It Works
-
-1. User inputs a political speech into the web interface.
-2. The text is preprocessed and vectorized using a TF-IDF vectorizer.
-3. A Logistic Regression model analyzes the text for political bias.
-4. The result is returned to the user on the same page with a probability score.
-
----
-
-## Project Structure
-
-├── static/ │   └── style.css ├── templates/ │   └── index.html            # Truth Seeker UI ├── model/ │   ├── bias_model.pkl        # Trained logistic regression model │   └── tfidf_vectorizer.pkl  # Saved TF-IDF vectorizer ├── app.py                    # Flask backend logic ├── preprocess.py             # Text cleaning & NLP functions ├── requirements.txt └── README.md
-
----
-
-## Getting Started
-
-### 1. Clone the Repository
+2. Create a virtual environment (optional but recommended):
 
 ```bash
-git clone https://github.com/yourusername/truth-seeker-ai.git
-cd truth-seeker-ai
-```
-### 2. Create Virtual Environment
-```
 python -m venv venv
-venv\Scripts\activate      # For Windows
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 ```
-### 3. Install Dependencies
-```
+
+3. Install the required dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
-### 4. Run the Application
-```
+
+4. Ensure the dataset file `Political_Bias.csv` is present in the `truth_seeker` directory.
+
+## Usage
+
+### Running Locally
+
+To run the app locally for development or testing, use:
+
+```bash
 python app.py
 ```
-Then open your browser and navigate to:
-http://127.0.0.1:5000
 
+This will start the Flask development server. You can access the app at `http://127.0.0.1:5000/`.
 
----
+### API Endpoints
 
-### Future Improvements
+- `GET /` - Serves the main index.html page.
+- `POST /predict` - Accepts JSON with a "text" field and returns the predicted bias, sentiment score, and topic distribution.
 
-Add multilingual speech analysis support.
+Example request:
 
-Expand model with larger, more diverse political datasets.
+```bash
+curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -d "{\"text\": \"Your input text here\"}"
+```
 
-Integrate sentiment analysis alongside bias detection.
+## Deployment
 
-Deploy on cloud platforms (Render, Heroku, AWS).
+The project includes a `Procfile` for deployment on platforms like Heroku.
 
+### Deploying on Heroku
 
+1. Ensure you have the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed and are logged in.
 
----
+2. Create a new Heroku app:
 
-### Author
+```bash
+heroku create your-app-name
+```
 
-Snehita Dhatri Siddabattuni
-Data Science Intern – Prasunet Pvt. Ltd.
+3. Push the code to Heroku:
 
+```bash
+git push heroku main
+```
 
----
+4. Heroku will use the `Procfile` to run the app with Gunicorn:
 
-### License
+```
+web: gunicorn app:app
+```
 
-This project is for educational and research purposes.
+5. Open the deployed app:
+
+```bash
+heroku open
+```
+
+### Notes
+
+- The `Procfile` specifies the command to run the Flask app using Gunicorn.
+- Make sure all dependencies are listed in `requirements.txt`.
+- The app expects the `Political_Bias.csv` dataset to be present in the root directory.
+
+## License
+
+This project is licensed under the MIT License.
